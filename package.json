@@ -1,6 +1,6 @@
 {
   "name": "gulp-project-setup",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Gulp project setup for pinkston digital",
   "main": "index.js",
   "scripts": {
