@@ -18,7 +18,8 @@ gulp.task('process-styles', function() {
 		})
 		.pipe(combineMq())
 		.pipe(minifycss())
-		.pipe(gulp.dest('public/css/'));
+		.pipe(gulp.dest('public/css/'))
+	    .pipe(reload({stream:true}));
 });
 
 // processing of js
@@ -27,26 +28,42 @@ gulp.task('process-scripts', function() {
 	return gulp.src('src/js/*.js')
 		.pipe(concat('main.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest('public/js/'));
+		.pipe(gulp.dest('public/js/'))
+		.pipe(reload({stream:true}));
 });
 
 // processing of pngs, jpgs, svgs, gifs
 
 gulp.task('process-images', function() {
-    return gulp.src('src/img/**/*')
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()]
-        }))
-        .pipe(gulp.dest('public/img'));
+	return gulp.src('src/img/**/*')
+		.pipe(imagemin({
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		}))
+		.pipe(gulp.dest('public/img'))
+		.pipe(reload({stream:true}));
 });
 
-// watch changes in files and running task accordingly
+// // watch changes in files and running task accordingly
 
-gulp.task('default', function() {
-  	gulp.watch(['craft/templates/*.html', 'craft/templates/**/*.html', 'craft/templates/**/**/*.html'], [browserSync.reload]);
+// gulp.task('watch', function() {
+// 	gulp.watch('src/css/**/*.scss', ['process-styles']);
+// 	gulp.watch('src/js/*.js', ['process-scripts']);
+// 	gulp.watch('src/img/**/*', ['process-images']);
+// });
+
+// start server
+
+gulp.task('browser-sync', function() {
+    browserSync({
+        proxy: "localhost:8888"
+    });
+});
+
+gulp.task('default', ['process-styles', 'process-scripts', 'process-images', 'browser-sync'], function () {
+	gulp.watch(['craft/templates/*.html', 'craft/templates/**/*.html', 'craft/templates/**/**/*.html'], [browserSync.reload]);
 	gulp.watch('src/css/**/*.scss', ['process-styles']);
-	gulp.watch('src/js/**/*.js', ['process-scripts']);
+	gulp.watch('src/js/*.js', ['process-scripts']);
 	gulp.watch('src/img/**/*', ['process-images']);
 });
