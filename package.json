@@ -26,6 +26,7 @@
     "gulp-watch": "^4.1.1",
     "browser-sync": "^2.0.1",
     "imagemin-pngquant": "^4.0.0",
-    "gulp-imagemin": "^2.2.0"
+    "gulp-imagemin": "^2.2.0",
+    "gulp-combine-mq": "^0.3.1"
   }
 }

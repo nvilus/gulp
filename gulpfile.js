@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
 	sass = require('gulp-ruby-sass'),
 	minifycss = require('gulp-minify-css'),
+	combineMq = require('gulp-combine-mq'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
 	imagemin = require('gulp-imagemin'),
@@ -15,6 +16,7 @@ gulp.task('process-styles', function() {
 	return sass('src/css/main.scss', {
 			compass: true
 		})
+		.pipe(combineMq())
 		.pipe(minifycss())
 		.pipe(gulp.dest('public/css/'));
 });
